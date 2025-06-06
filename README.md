@@ -1,11 +1,10 @@
-# Effective Enhancement and Fusion of Multi-Perspective Features for Self-Supervised Real Image Denoising
+# Fourier-Guided Two-Domain Adaptive Optimization for Enhanced Self-Supervised Real-World Image Denoising
 
 ![main_fig](./figs/mainFigure.png)
 
 
 ## Abstract
-_In real-world self-supervised denoising tasks, understanding the noise distribution and its spatial correlation is crucial. Most of the existing methods employ pixel-shuffle downsampling (PD) to initially decouple the spatial connection of noise. However, an excessive PD stride will destroy the image structure when dealing with strongly correlated noise. This limitation leads to noise insufficient decorrelation, resulting in abnormal color spots and high-frequency detail loss. In this paper, we propose a Tri-Mask Feature Extraction (TMFE) module, which utilizes a parallel branch structure with predefined masks of different shapes that form blind-area to extract multi-perspective features, enabling the network to fully understand the noise distribution. Furthermore, we introduce the Multi-Pixel Information Enhancement (MPIE) module, which captures more neighborhood pixels to reconstruct blind-area and enhance local-global features, then preserve more high-frequency details. Cross-Gated Fusion Network (CGFN) uses cross-concatenation and gated weighting to eliminate redundant features and achieve complementary information fusion. Extensive experiments are conducted on SIDD and DND datasets, and our method achieves competitive performance, which improves denoising performance, preserves texture details, and mitigates aliasing artifacts._
-
+_In the real-world image denoising task, the self-supervised method uses the data’s inherent attributes as the supervised signal to train the model without clean images. However, the existing methods generally rely on pixel-level spatial domain where noise and high-frequency details have similar local statistical characteristics, which makes the model unable to adaptively distinguish and excessively suppress effective features. Moreover, the locality of the convolution makes it difficult to model the global noise with long-range correlation. In this paper, we propose a straight forward approach that utilizes Fourier insights to interact with spatial domains. Firstly, through the Fourier transform we explored the physical property that amplitude mainly encodes noise and phase contains structural information. Based on this prior, Amplitude Spectrum Adaptive Weight(ASAW) module captures global noise distribution and explicitly suppresses the noise-dominated frequency band, enhances the effective low-high frequency components, while maintaining the integrity of the phase to avoid image distortion. Additionally, Multi-Scale Fusion (MSF) dynamically adjusts the contribution of different branches. We also propose Bilateral Filtering Alleviates Artifacts (BFAA), which suppresses artifacts via adaptive low-pass filtering, and preserves edge sharpness through intensity-aware weighting. Extensive experiments on SIDD and DND datasets verify that our method is significantly better than the existing self-supervised denoising methods and achieves high efficiency._
 ---
 
 ## Setup
@@ -25,7 +24,7 @@ Our experiments are done with:
 Follow the below descriptions to build the code directory.
 
 ```
-EEFM-BAN
+TDC-SSD
 ├─ ckpt
 ├─ conf
 ├─ dataset
@@ -50,15 +49,15 @@ EEFM-BAN
 ### Training
 
 ```
-# Train EEFM-BAN for the SIDD dataset using gpu:0
-python train.py -c APBSN_SIDD -g 0
+# Train TDC-SSD for the SIDD dataset using gpu:0
+python train.py -c TDCSSD_SIDD -g 0
 ```
 
 ### Test
 
 ```
 # Test SIDD dataset for 25 epoch model in gpu:0
-python test.py -c APBSN_SIDD -g 0 -e 25
+python test.py -c TDCSSD_SIDD -g 0 -e 25
 ```
 
 ---
